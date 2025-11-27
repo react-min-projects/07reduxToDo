@@ -24,17 +24,20 @@ const AddTodo = () => {
     <>
       <div className='relative text-center font-mono py-10 space-y-8'>
         <div>
-          <h2 className='text-5xl font-bold text-white ' >
+          <h2 className='text-4xl sm:text-5xl font-bold text-white ' >
             To Do List
           </h2>
         </div> 
         <div>
-          <form onSubmit={handleAddTodo} >
+          <form 
+            onSubmit={handleAddTodo}
+            className="flex justify-center px-4"
+          >
 
-            <input type="text" placeholder='Enter a Todo..' className='text-white bg-gray-800  p-2 rounded-sm text-xl outline-none  ' onChange={(e)=> setInput(e.target.value)} value={input} />
-            <button type="submit" className='text-lg  rounded-sm ml-3 p-2 bg-green-700 hover:bg-green-800 text-white active:scale-95  '
+            <input type="text" placeholder='Enter a Todo..' className='text-white bg-gray-800  p-2 rounded-sm text-md sm:text-xl outline-none w-80 min-w-44 ' onChange={(e)=> setInput(e.target.value)} value={input} />
+            <button type="submit" className='text-md sm:text-lg  rounded-sm ml-3 p-2 px-3 bg-green-700 hover:bg-green-800 text-white active:scale-95'
             >
-              Add Todo
+              Add 
             </button>
 
           </form>
