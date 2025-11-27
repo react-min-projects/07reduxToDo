@@ -11,7 +11,8 @@ export const todoSlice = createSlice({
     addTodo : (state,action)=>{
       const todo = {
         id : nanoid(),
-        text : action.payload
+        text : action.payload,
+        completed : false
       }
       state.todos.push(todo)
     },
@@ -22,10 +23,17 @@ export const todoSlice = createSlice({
       const {id ,text} = action.payload;
       const todo = state.todos.find(todo => todo.id === id);
       if(todo) todo.text = text;
+    },
+    completedTodo : (state,action)=>{
+      const id = action.payload;
+      const todo = state.todos.find(todo=> todo.id === id);
+      if(todo) todo.completed = !todo.completed;
     }
   }
 })
 
-export const {addTodo , removeTodo, updateTodo} = todoSlice.actions
+
+
+export const {addTodo , removeTodo, updateTodo, completedTodo} = todoSlice.actions
 
 export default todoSlice.reducer

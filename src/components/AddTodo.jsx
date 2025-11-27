@@ -34,7 +34,7 @@ const AddTodo = () => {
             className="flex justify-center px-4"
           >
 
-            <input type="text" placeholder='Enter a Todo..' className='text-white bg-gray-800  p-2 rounded-sm text-md sm:text-xl outline-none w-80 min-w-44 ' onChange={(e)=> setInput(e.target.value)} value={input} />
+            <input type="text" placeholder='Enter a Todo..' className='text-white  border border-dotted  p-2 rounded-sm text-md sm:text-xl outline-none w-80 min-w-44 ' onChange={(e)=> setInput(e.target.value)} value={input} />
             <button type="submit" className='text-md sm:text-lg  rounded-sm ml-3 p-2 px-3 bg-green-700 hover:bg-green-800 text-white active:scale-95'
             >
               Add 
