@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { completedTodo, removeTodo, updateTodo } from "../features/TodoSlice";
-import { Circle, CircleCheckBig, Pen, Trash } from "lucide-react";
+import { Circle, Check, Pen, Trash } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import Sortable from "sortablejs"
 
@@ -10,8 +10,6 @@ const Todos = () => {
   const dispatch = useDispatch()
   const containerRef = useRef(null)
   const [items , setItems] = useState(todos)
-  console.log(todos);
-  
 
 
   useEffect(()=>{
@@ -32,19 +30,27 @@ const Todos = () => {
 
   return (
     <>
-      <div ref={containerRef} className="flex flex-col gap-3 justify-center ">
+      <div ref={containerRef} className="flex flex-col gap-3 justify-center min-w-60 ">
         { todos.slice().reverse().map((todo) => (
-          <>
             <div
               className='flex justify-between items-center list-none gap-2 bg-gray-700 hover:bg-gray-800 text-white mx-4 md:mx-15  p-1 rounded-md relative min-w-20 transition-all duration-300 cursor-pointer ' key={todo.id} 
             >
               <div>
                 <div onClick={()=> {dispatch(completedTodo(todo.id))}}>
-                  {todo.completed ? (
-                    < CircleCheckBig size={18} className="bg-green-300 rounded-full text-green-900" />
-                    ):(
-                    <Circle size={18}/>
-                  )}
+                  <div className="relative flex items-center justify-center">
+                    <Circle
+                      size={22}
+                      className={`text-gray-500 ${todo.completed ? 'text-green-300' : ''}`} 
+                    />
+
+                    {todo.completed && (
+                      <Check
+                        size={14}
+                        className="absolute  text-green-900 bg-green-300 rounded-full p-[2px] transition-transform duration-300 scale-100"
+                        style={{ transform: todo.completed ? "scale(1.2)" : "scale(0)" }}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
               <div className={`flex-1 pl-1 break-words overflow-hidden ${todo.completed ? 'line-through' : ''} `}>
@@ -75,7 +81,6 @@ const Todos = () => {
 
 
             </div>
-          </>
         )) }
       </div>
     </>
