@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { useDispatch } from 'react-redux'
-import { addTodo } from "../features/TodoSlice";
+import { addTodoAsync } from "../features/TodoSlice";
 
 
 const AddTodo = () => {
@@ -15,7 +15,7 @@ const AddTodo = () => {
       return
     }
 
-    dispatch(addTodo(input))
+    dispatch(addTodoAsync(input))
 
     setInput("");
   }

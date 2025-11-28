@@ -1,0 +1,19 @@
+{
+  "todos": [
+    {
+      "id": "1",
+      "title": "Learn RTK Query",
+      "completed": false
+    },
+    {
+      "id": "2",
+      "title": "Learn Redux Toolkit",
+      "completed": true
+    },
+    {
+      "id": "2ee9",
+      "title": "new titile",
+      "completed": false
+    }
+  ]
+}

@@ -1,39 +1,35 @@
 import { useSelector, useDispatch } from "react-redux";
-import { completedTodo, removeTodo, updateTodo } from "../features/TodoSlice";
+import { completedTodo, fetchTodo, removeTodo, updateTodo } from "../features/TodoSlice";
 import { Circle, Check, Pen, Trash } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import Sortable from "sortablejs"
 
 const Todos = () => {
 
-  const todos = useSelector(state => state.todos)
+  const {todos , loading , error} = useSelector(state => state.todo);
+  
   const dispatch = useDispatch()
   const containerRef = useRef(null)
-  const [items , setItems] = useState(todos)
-
-
+   
   useEffect(()=>{
-    const sortable = new Sortable(containerRef.current, {
-      animation : 200,
-      ghostClass: "opacity-50",
-      onEnd: (evt)=>{
-        setItems((prev) => {
-          const updated = [...prev];
-          const [moved] = updated.splice(evt.oldIndex, 1);
-          updated.splice(evt.newIndex, 0, moved);
-          return updated;
-        });
-      },
-    });
-    return () => sortable.destroy();
-  },[])
+    dispatch(fetchTodo())
+  },[dispatch])
+
+
+  const handleUpdate = (id, newText)=>{
+    dispatch(updateTodo({ id: id , updatedTitle : newText}))
+  }
+  
+
+  if(loading) return <>Loading...</>
+  if(error) return <>{error}</>
+
 
   return (
     <>
       <div ref={containerRef} className="flex flex-col gap-3 justify-center min-w-60 ">
         { todos.slice().reverse().map((todo) => (
             <div
-              className='flex justify-between items-center list-none gap-2 bg-gray-700 hover:bg-gray-800 text-white mx-4 md:mx-15  p-1 rounded-md relative min-w-20 transition-all duration-300 cursor-pointer ' key={todo.id} 
+              className='flex justify-between items-center list-none gap-2 bg-gray-700 hover:bg-gray-800 text-white mx-4 md:mx-15  p-1 rounded-md relative  transition-all duration-300 cursor-pointer ' key={todo.id} 
             >
               <div>
                 <div onClick={()=> {dispatch(completedTodo(todo.id))}}>
@@ -54,7 +50,7 @@ const Todos = () => {
                 </div>
               </div>
               <div className={`flex-1 pl-1 break-words overflow-hidden ${todo.completed ? 'line-through' : ''} `}>
-                {todo.text }
+                {todo.title }
               </div>
 
               <div className=" w-12 "  >
@@ -63,9 +59,7 @@ const Todos = () => {
                   disabled = {todo.completed}
                   onClick={()=>{
                     const newText = prompt("Update todo:", todo.text);
-                    if(newText && newText.trim()!== ""){
-                      dispatch(updateTodo({ id: todo.id , text : newText}));
-                    }
+                    if(newText && newText.trim()!== ""){handleUpdate(todo.id, newText)}
                   }}
                 >
                   < Pen size={16} />
