@@ -20,7 +20,7 @@ const Todos = () => {
   }
   
 
-  if(loading) return <>Loading...</>
+  if(loading) return (<div>Loading...</div>)
   if(error) return <>{error}</>
 
 

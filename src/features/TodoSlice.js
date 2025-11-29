@@ -1,6 +1,6 @@
 import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
+import BACKEND_URL from "../../config";
 
-const BASE_URL = "http://localhost:3001"
 
 const initialState = {
   todos: [],
@@ -9,7 +9,7 @@ const initialState = {
 }
 
 export const addTodoAsync = createAsyncThunk("todo/addTodoAsync", async(title)=>{
-  const res  = await fetch(`${BASE_URL}/todos`, {
+  const res  = await fetch(`${BACKEND_URL}/todos`, {
     method : "POST",
     headers : { "Content-Type" : "application/json" },
     body : JSON.stringify({ title : title , completed : false })
@@ -18,12 +18,12 @@ export const addTodoAsync = createAsyncThunk("todo/addTodoAsync", async(title)=>
 })
 
 export const fetchTodo = createAsyncThunk("todo/fetchTodo",  async()=>{
-  const res = await fetch(`${BASE_URL}/todos`);
+  const res = await fetch(`${BACKEND_URL}/todos`);
   return await res.json();
 })
 
 export const updateTodo = createAsyncThunk("todo/updateTodo", async({id, updatedTitle})=>{
-  const res = await fetch(`${BASE_URL}/todos/${id}`,
+  const res = await fetch(`${BACKEND_URL}/todos/${id}`,
     {
       method : "PUT",
       headers : { "Content-Type" : "application/json" },
