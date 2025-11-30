@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Todos from "./Todos";
-import { LoadingText } from "./loadingText";
+import { LoadingText } from "./LoadingText";
 import { useSelector, useDispatch } from "react-redux"; 
 import { fetchTodo } from "../features/TodoSlice";
 
