@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import AddTodo from './components/AddTodo'
-import Todos from './components/Todos'
+import { Container } from './components/Container'
 
 
 function App(){
@@ -8,7 +8,7 @@ function App(){
     <>
       <div>
         <AddTodo />
-        <Todos />
+        <Container />
       </div>
     </>
   )

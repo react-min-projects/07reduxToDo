@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { completedTodo, fetchTodo, removeTodo, updateTodo } from "../features/TodoSlice";
+import { completedTodo, deleteTodo, toggleTodo, updateTodo } from "../features/TodoSlice";
 import { Circle, Check, Pen, Trash } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
@@ -9,19 +9,14 @@ const Todos = () => {
   
   const dispatch = useDispatch()
   const containerRef = useRef(null)
-   
-  useEffect(()=>{
-    dispatch(fetchTodo())
-  },[dispatch])
-
 
   const handleUpdate = (id, newText)=>{
     dispatch(updateTodo({ id: id , updatedTitle : newText}))
   }
-  
 
-  if(loading) return (<div>Loading...</div>)
-  if(error) return <>{error}</>
+  const handleToggle = (id , completed)=>{
+    dispatch(toggleTodo({id, completed}));
+  }
 
 
   return (
@@ -32,7 +27,7 @@ const Todos = () => {
               className='flex justify-between items-center list-none gap-2 bg-gray-700 hover:bg-gray-800 text-white mx-4 md:mx-15  p-1 rounded-md relative  transition-all duration-300 cursor-pointer ' key={todo.id} 
             >
               <div>
-                <div onClick={()=> {dispatch(completedTodo(todo.id))}}>
+                <div onClick={()=>handleToggle(todo.id, todo.completed)}>
                   <div className="relative flex items-center justify-center">
                     <Circle
                       size={22}
@@ -58,7 +53,7 @@ const Todos = () => {
                   className={`text-white p-1 rounded-sm  cursor-pointer active:scale-95 hover:text-sky-400 disabled:cursor-not-allowed disabled:opacity-30 `}
                   disabled = {todo.completed}
                   onClick={()=>{
-                    const newText = prompt("Update todo:", todo.text);
+                    const newText = prompt("Update todo:", todo.title);
                     if(newText && newText.trim()!== ""){handleUpdate(todo.id, newText)}
                   }}
                 >
@@ -67,7 +62,7 @@ const Todos = () => {
 
                 <button 
                   className=' hover:text-red-400 text-white p-1 rounded-sm  cursor-pointer active:scale-95 ' 
-                  onClick={()=>dispatch(removeTodo(todo.id))} 
+                  onClick={()=>dispatch(deleteTodo(todo.id))} 
                 >
                   <Trash  size={16}/>
                 </button>

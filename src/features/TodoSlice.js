@@ -33,6 +33,26 @@ export const updateTodo = createAsyncThunk("todo/updateTodo", async({id, updated
   return await res.json();
 })
 
+export const toggleTodo = createAsyncThunk("todo/toggleTodo", async({id, completed},thunkAPI)=>{
+  const res = await fetch(`${BACKEND_URL}/todos/${id}`,{
+    method : "PATCH",
+    headers: { "Content-Type" : "application/json" },
+    body : JSON.stringify({completed : !completed })
+  })
+  const data = await res.json();
+  return data;
+})
+
+export const deleteTodo = createAsyncThunk("todo/deleteTodo", async(id, thunkAPI)=>{
+  const res = await fetch(`${BACKEND_URL}/todos/${id}`,{
+    method : "DELETE"
+  })
+  if(!res.ok){
+    return thunkAPI.rejectWithValue("Failed to Delete");
+  }
+  return id;
+})
+
 export const todoSlice = createSlice({
   name : 'todo',
   initialState,
@@ -48,7 +68,7 @@ export const todoSlice = createSlice({
   },
   extraReducers : (builder)=>{
 
-
+    // Add Todo
     builder
     .addCase(addTodoAsync.pending , (state)=>{
       state.loading = true;
@@ -62,6 +82,7 @@ export const todoSlice = createSlice({
       state.error = action.error.message || "Something went wrong";
     })
 
+    // Fetch Todo 
     builder
     .addCase(fetchTodo.pending,(state)=>{
       state.loading = true;
@@ -72,22 +93,49 @@ export const todoSlice = createSlice({
     })
     .addCase(fetchTodo.rejected,(state)=>{
       state.loading = false;
-      state.error = "try again";
+      state.error = "Failed to Fetch";
     })
 
+    // update Todo 
     builder
     .addCase(updateTodo.pending, (state) => {
-      state.loading = true;
     })
     .addCase(updateTodo.fulfilled, (state, action) => {
-      state.loading = false;
       const index = state.todos.findIndex(todo => todo.id === action.payload.id);
       state.todos[index] = action.payload;
     })
     .addCase(updateTodo.rejected, (state, action) => {
-      state.loading = false;
       state.error = action.error.message;
     });
+
+    // delete Todo
+    builder
+    .addCase(deleteTodo.pending , (state)=>{
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(deleteTodo.fulfilled, (state,action)=>{
+      state.loading =  false;
+      state.todos = state.todos.filter(todo => todo.id !== action.payload);
+    })
+    .addCase(deleteTodo.rejected, (state,action)=>{
+      state.loading = false;
+      state.error = action.payload || action.error.message;
+    })
+
+    // Toggle Todo
+    builder
+    .addCase(toggleTodo.pending, (state)=>{
+      state.error = null;
+    })
+    .addCase(toggleTodo.fulfilled, (state,action)=>{
+      const { id , completed } = action.payload;
+      const todo = state.todos.find( t=> t.id === id )
+      if(todo) todo.completed = completed;
+    })
+    .addCase(toggleTodo.rejected, (state)=>{
+      state.error = "Error to toggle"
+    })
   }
 })
 
