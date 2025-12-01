@@ -15,8 +15,12 @@ export const Container = () => {
   },[dispatch])
 
   
-  if(loading) return (<LoadingText />)
-  if(error) return <>{error}</>
+  if(loading) return (<LoadingText />);
+  if(error) return (
+    <div className="text-center text-red-200 font-mono">
+      {error}
+    </div>
+  );
   
   return (
     <div> 

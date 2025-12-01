@@ -25,7 +25,7 @@ export const fetchTodo = createAsyncThunk("todo/fetchTodo",  async()=>{
 export const updateTodo = createAsyncThunk("todo/updateTodo", async({id, updatedTitle})=>{
   const res = await fetch(`${BACKEND_URL}/todos/${id}`,
     {
-      method : "PUT",
+      method : "PATCH",
       headers : { "Content-Type" : "application/json" },
       body : JSON.stringify({ title: updatedTitle }),
     }

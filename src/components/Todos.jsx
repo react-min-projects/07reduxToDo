@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from "react";
 
 const Todos = () => {
 
-  const {todos , loading , error} = useSelector(state => state.todo);
+  const {todos} = useSelector(state => state.todo);
   
   const dispatch = useDispatch()
   const containerRef = useRef(null)
@@ -50,7 +50,7 @@ const Todos = () => {
 
               <div className=" w-12 "  >
                 <button 
-                  className={`text-white p-1 rounded-sm  cursor-pointer active:scale-95 hover:text-sky-400 disabled:cursor-not-allowed disabled:opacity-30 `}
+                  className={`text-white p-1 rounded-sm  cursor-pointer active:scale-95 hover:text-sky-400 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:text-white disabled:active:scale-100 `}
                   disabled = {todo.completed}
                   onClick={()=>{
                     const newText = prompt("Update todo:", todo.title);

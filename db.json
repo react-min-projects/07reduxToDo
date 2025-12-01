@@ -1,24 +1,14 @@
 {
   "todos": [
     {
-      "title": "helloo",
-      "completed": false,
+      "title": "Learn Redux Toolkit",
+      "completed": true,
       "id": 1
     },
     {
-      "title": "json",
+      "title": "Learn RTK Query quickly s",
       "completed": false,
-      "id": 3
-    },
-    {
-      "title": "rengoku",
-      "completed": false,
-      "id": 4
-    },
-    {
-      "title": "node",
-      "completed": false,
-      "id": 5
+      "id": 2
     }
   ]
 }
