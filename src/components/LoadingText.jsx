@@ -1,4 +1,4 @@
-import React from "react";
+import { Loader } from "lucide-react";
 
 export const LoadingText = () => {
 
@@ -38,3 +38,12 @@ export const LoadingText = () => {
     </>
   );
 };
+
+
+export const Spinner = ()=>{
+  return (
+    <div className=" animate-spin duration-400 ">
+      <Loader size={20} />
+    </div>
+  )
+}

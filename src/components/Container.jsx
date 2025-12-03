@@ -1,28 +1,22 @@
-import { useEffect } from "react";
 import Todos from "./Todos";
 import { LoadingText } from "./LoadingText";
-import { useSelector, useDispatch } from "react-redux"; 
-import { fetchTodo } from "../features/TodoSlice";
+import { useGetTodoQuery } from "../services/todoApi";
 
 
 export const Container = () => {
 
-  const { todos, loading, error } = useSelector(state=> state.todo);
-  const dispatch = useDispatch();
 
-  useEffect(()=>{
-    dispatch(fetchTodo())
-  },[dispatch])
 
+  const { isSuccess, isLoading , isError, error } = useGetTodoQuery();
   
-  if(loading) return (<LoadingText />);
-  if(error) return (
+  if(isLoading) return (<LoadingText />);
+  if(isError) return (
     <div className="text-center text-red-200 font-mono">
-      {error}
+      {error.message}
     </div>
   );
   
-  return (
+  if(isSuccess) return (
     <div> 
      < Todos /> 
     </div>

@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import AddTodo from './components/AddTodo'
 import { Container } from './components/Container'
 

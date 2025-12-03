@@ -1,12 +1,12 @@
 {
   "todos": [
     {
-      "title": "Learn Redux Toolkit",
-      "completed": true,
+      "title": "first",
+      "completed": false,
       "id": 1
     },
     {
-      "title": "Learn RTK Query quickly s",
+      "title": "second",
       "completed": false,
       "id": 2
     }
