@@ -28,7 +28,23 @@ export const todoApi = createApi({
         headers : { "Content-Type" : "application/json" },
         body    : { title: updatedTitle }, 
       }),
-      invalidatesTags: ['Todo'],
+
+      async onQueryStarted({id, updatedTitle}, {dispatch, queryFulfilled}){
+        const patchResult = dispatch(
+          todoApi.util.updateQueryData("getTodo", undefined, (draft)=>{
+            const todo = draft.find((t)=> t.id === id);
+            if(todo) todo.title = updatedTitle;
+          })
+        )
+
+        try{
+          await queryFulfilled;
+        }
+        catch{
+          patchResult.undo();
+        }
+        
+      }
     }),
 
     toggleTodo : builder.mutation({
@@ -38,7 +54,16 @@ export const todoApi = createApi({
         headers : { "Content-Type" : "application/json" },
         body    : {completed : !completed}
       }),
-      invalidatesTags : ["Todo"],
+      async onQueryStarted({id, completed},{dispatch,queryFulfilled}){
+        const patchResult = dispatch(
+          todoApi.util.updateQueryData("getTodo", undefined, (draft)=>{
+            const todo = draft.find((t) => t.id === id);
+            if(todo) todo.completed = !completed;
+          })
+        )
+        try  { await queryFulfilled; }
+        catch{ patchResult.undo();   }
+      }
     }),
 
     delTodo : builder.mutation({
@@ -46,7 +71,19 @@ export const todoApi = createApi({
         url    : `/todos/${id}`,
         method : "DELETE"
       }),
-      invalidatesTags: ['Todo'],
+
+      async onQueryStarted(id,{dispatch, queryFulfilled}){
+        
+        const patchResult = dispatch(
+          todoApi.util.updateQueryData("getTodo", undefined, (draft)=>{
+            const index = draft.findIndex((t) => t.id === id);
+            if(index !== -1) draft.splice(index,1); 
+          })
+        );
+
+        try  { await queryFulfilled; }
+        catch{ patchResult.undo(); }
+      }
     }),
 
     fetchById : builder.query({
